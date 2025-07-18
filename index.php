@@ -1,11 +1,16 @@
 <?php
-include 'db.php'; 
+include 'db.php';  // Include database connection
 
+// Handle search functionality
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 $sql = "SELECT * FROM creatures WHERE name LIKE :search OR description LIKE :search";
 $stmt = $pdo->prepare($sql);
 $stmt->execute(['search' => '%' . $searchQuery . '%']);
 $creatures = $stmt->fetchAll();
+
+if ($creatures === false) {
+    echo "No results found.";
+}
 ?>
 
 <!DOCTYPE html>
